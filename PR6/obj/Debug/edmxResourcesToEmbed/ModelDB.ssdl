@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PraktikaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Factory">
+    <Key>
+      <PropertyRef Name="factory_id" />
+    </Key>
+    <Property Name="factory_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="factory_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="factory_address" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="factory_phone" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="factory_person_id" Type="int" Nullable="false" />
+    <Property Name="factory_manager_id" Type="int" Nullable="false" />
+    <Property Name="marketing_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FactoryManager">
+    <Key>
+      <PropertyRef Name="manager_id" />
+    </Key>
+    <Property Name="manager_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="manager_first_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="manager_last_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="manager_patronymic" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="manager_position" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FactoryPerson">
+    <Key>
+      <PropertyRef Name="person_id" />
+    </Key>
+    <Property Name="person_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="person_first_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="person_last_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="person_patronymic" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="MarketingDepartment">
+    <Key>
+      <PropertyRef Name="marketing_id" />
+    </Key>
+    <Property Name="marketing_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="marketing_phone" Type="int" Nullable="false" />
+    <Property Name="marketing_manager_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MarketingManager">
+    <Key>
+      <PropertyRef Name="manager_id" />
+    </Key>
+    <Property Name="manager_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="manager_first_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="manager_last_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="manager_patronymic" Type="nvarchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="product_name" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="product_price" Type="int" Nullable="false" />
+    <Property Name="product_category" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="factory_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Factory_FactoryManager1">
+    <End Role="FactoryManager" Type="Self.FactoryManager" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FactoryManager">
+        <PropertyRef Name="manager_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="factory_manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factory_FactoryPerson1">
+    <End Role="FactoryPerson" Type="Self.FactoryPerson" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FactoryPerson">
+        <PropertyRef Name="person_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="factory_person_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factory_MarketingDepartment1">
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarketingDepartment">
+        <PropertyRef Name="marketing_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="marketing_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MarketingDepartment_MarketingManager1">
+    <End Role="MarketingManager" Type="Self.MarketingManager" Multiplicity="1" />
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarketingManager">
+        <PropertyRef Name="manager_id" />
+      </Principal>
+      <Dependent Role="MarketingDepartment">
+        <PropertyRef Name="marketing_manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Factory1">
+    <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Factory">
+        <PropertyRef Name="factory_id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="factory_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PraktikaDBModelStoreContainer">
+    <EntitySet Name="Factory" EntityType="Self.Factory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FactoryManager" EntityType="Self.FactoryManager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FactoryPerson" EntityType="Self.FactoryPerson" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarketingDepartment" EntityType="Self.MarketingDepartment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MarketingManager" EntityType="Self.MarketingManager" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Factory_FactoryManager1" Association="Self.FK_Factory_FactoryManager1">
+      <End Role="FactoryManager" EntitySet="FactoryManager" />
+      <End Role="Factory" EntitySet="Factory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factory_FactoryPerson1" Association="Self.FK_Factory_FactoryPerson1">
+      <End Role="FactoryPerson" EntitySet="FactoryPerson" />
+      <End Role="Factory" EntitySet="Factory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factory_MarketingDepartment1" Association="Self.FK_Factory_MarketingDepartment1">
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartment" />
+      <End Role="Factory" EntitySet="Factory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MarketingDepartment_MarketingManager1" Association="Self.FK_MarketingDepartment_MarketingManager1">
+      <End Role="MarketingManager" EntitySet="MarketingManager" />
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Factory1" Association="Self.FK_Product_Factory1">
+      <End Role="Factory" EntitySet="Factory" />
+      <End Role="Product" EntitySet="Product" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

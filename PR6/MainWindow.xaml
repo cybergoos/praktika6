@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PR6"
         mc:Ignorable="d"
-        Title="BankOfProducts" Height="450" Width="800">
-    <Grid>
-        
+        Title="BankOfProduct" Height="512.834" Width="751.951" Background="#FFF3F3F3">
+    <Grid Margin="-2,0,2,0">
+        <TabControl Margin="10,10,10,75">
+            <TabItem Header="Product" FontFamily="Yu Gothic UI Semibold" FontSize="14" MinWidth="100">
+                <DataGrid AutoGenerateColumns="True" Name="ProductTable" Margin="10" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Background="White" FontSize="14" BorderBrush="#FFACACAC"/>
+            </TabItem>
+            <TabItem Header="Factory" FontFamily="Yu Gothic UI Semibold" MinWidth="100" FontSize="14">
+                <DataGrid AutoGenerateColumns="True" Name="FactoryTable" Margin="10" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" Background="White" FontSize="14" BorderBrush="#FFACACAC"/>
+            </TabItem>
+        </TabControl>
+        <Grid Margin="10,407,10,20" RenderTransformOrigin="0.505,-0.11">
+            <Button Content="УДАЛИТЬ" Name="DeleteBtn" Margin="310,0,0,0" Background="#3DFF0000" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" Foreground="Black" BorderBrush="#FFACACAC" Width="140" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="DeleteBtn_Click"/>
+            <Button Content="ОБНОВИТЬ" Name="UpdateBtn" Margin="156,0,0,0" Background="#3F002EFF" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" BorderBrush="#FFACACAC" Foreground="Black" Width="140" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="UpdateBtn_Click"/>
+            <Button Content="ДОБАВИТЬ" Name="AddBtn" Margin="1,0,0,0" Background="#3F48C700" FontFamily="Yu Gothic UI Semibold" BorderBrush="#FFACACAC" Foreground="Black" Height="35" Width="140" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontWeight="Bold" Click="AddBtn_Click"/>
+            <Button Content="ЭКСПОРТ В PDF" Name="ExportBtn" Margin="576,0,0,0" Background="#3FFF9700" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold" Foreground="Black" BorderBrush="#FFACACAC" Width="140" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="ExportBtn_Click"/>
+        </Grid>
     </Grid>
 </Window>

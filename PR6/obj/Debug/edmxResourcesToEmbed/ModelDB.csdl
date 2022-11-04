@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PraktikaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Factory">
+    <Key>
+      <PropertyRef Name="factory_id" />
+    </Key>
+    <Property Name="factory_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="factory_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="factory_address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="factory_phone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="factory_person_id" Type="Int32" Nullable="false" />
+    <Property Name="factory_manager_id" Type="Int32" Nullable="false" />
+    <Property Name="marketing_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="FactoryManager" Relationship="Self.FK_Factory_FactoryManager1" FromRole="Factory" ToRole="FactoryManager" />
+    <NavigationProperty Name="FactoryPerson" Relationship="Self.FK_Factory_FactoryPerson1" FromRole="Factory" ToRole="FactoryPerson" />
+    <NavigationProperty Name="MarketingDepartment" Relationship="Self.FK_Factory_MarketingDepartment1" FromRole="Factory" ToRole="MarketingDepartment" />
+    <NavigationProperty Name="Products" Relationship="Self.FK_Product_Factory1" FromRole="Factory" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="FactoryManager">
+    <Key>
+      <PropertyRef Name="manager_id" />
+    </Key>
+    <Property Name="manager_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="manager_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="manager_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="manager_patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="manager_position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Factories" Relationship="Self.FK_Factory_FactoryManager1" FromRole="FactoryManager" ToRole="Factory" />
+  </EntityType>
+  <EntityType Name="FactoryPerson">
+    <Key>
+      <PropertyRef Name="person_id" />
+    </Key>
+    <Property Name="person_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="person_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="person_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="person_patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Factories" Relationship="Self.FK_Factory_FactoryPerson1" FromRole="FactoryPerson" ToRole="Factory" />
+  </EntityType>
+  <EntityType Name="MarketingDepartment">
+    <Key>
+      <PropertyRef Name="marketing_id" />
+    </Key>
+    <Property Name="marketing_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="marketing_phone" Type="Int32" Nullable="false" />
+    <Property Name="marketing_manager_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Factories" Relationship="Self.FK_Factory_MarketingDepartment1" FromRole="MarketingDepartment" ToRole="Factory" />
+    <NavigationProperty Name="MarketingManager" Relationship="Self.FK_MarketingDepartment_MarketingManager1" FromRole="MarketingDepartment" ToRole="MarketingManager" />
+  </EntityType>
+  <EntityType Name="MarketingManager">
+    <Key>
+      <PropertyRef Name="manager_id" />
+    </Key>
+    <Property Name="manager_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="manager_first_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="manager_last_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="manager_patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="MarketingDepartments" Relationship="Self.FK_MarketingDepartment_MarketingManager1" FromRole="MarketingManager" ToRole="MarketingDepartment" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="product_name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="product_price" Type="Int32" Nullable="false" />
+    <Property Name="product_category" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="factory_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Factory" Relationship="Self.FK_Product_Factory1" FromRole="Product" ToRole="Factory" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_Factory_FactoryManager1">
+    <End Role="FactoryManager" Type="Self.FactoryManager" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FactoryManager">
+        <PropertyRef Name="manager_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="factory_manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factory_FactoryPerson1">
+    <End Role="FactoryPerson" Type="Self.FactoryPerson" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FactoryPerson">
+        <PropertyRef Name="person_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="factory_person_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Factory_MarketingDepartment1">
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="1" />
+    <End Role="Factory" Type="Self.Factory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarketingDepartment">
+        <PropertyRef Name="marketing_id" />
+      </Principal>
+      <Dependent Role="Factory">
+        <PropertyRef Name="marketing_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Product_Factory1">
+    <End Role="Factory" Type="Self.Factory" Multiplicity="1" />
+    <End Role="Product" Type="Self.Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Factory">
+        <PropertyRef Name="factory_id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="factory_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_MarketingDepartment_MarketingManager1">
+    <End Role="MarketingManager" Type="Self.MarketingManager" Multiplicity="1" />
+    <End Role="MarketingDepartment" Type="Self.MarketingDepartment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarketingManager">
+        <PropertyRef Name="manager_id" />
+      </Principal>
+      <Dependent Role="MarketingDepartment">
+        <PropertyRef Name="marketing_manager_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PraktikaDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Factories" EntityType="Self.Factory" />
+    <EntitySet Name="FactoryManagers" EntityType="Self.FactoryManager" />
+    <EntitySet Name="FactoryPersons" EntityType="Self.FactoryPerson" />
+    <EntitySet Name="MarketingDepartments" EntityType="Self.MarketingDepartment" />
+    <EntitySet Name="MarketingManagers" EntityType="Self.MarketingManager" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK_Factory_FactoryManager1" Association="Self.FK_Factory_FactoryManager1">
+      <End Role="FactoryManager" EntitySet="FactoryManagers" />
+      <End Role="Factory" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factory_FactoryPerson1" Association="Self.FK_Factory_FactoryPerson1">
+      <End Role="FactoryPerson" EntitySet="FactoryPersons" />
+      <End Role="Factory" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Factory_MarketingDepartment1" Association="Self.FK_Factory_MarketingDepartment1">
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartments" />
+      <End Role="Factory" EntitySet="Factories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Product_Factory1" Association="Self.FK_Product_Factory1">
+      <End Role="Factory" EntitySet="Factories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_MarketingDepartment_MarketingManager1" Association="Self.FK_MarketingDepartment_MarketingManager1">
+      <End Role="MarketingManager" EntitySet="MarketingManagers" />
+      <End Role="MarketingDepartment" EntitySet="MarketingDepartments" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -15,11 +15,23 @@ namespace PR6
     
     public partial class PraktikaDBEntities : DbContext
     {
+        private static PraktikaDBEntities _context;
+
         public PraktikaDBEntities()
             : base("name=PraktikaDBEntities")
         {
         }
-    
+
+        public static PraktikaDBEntities GetContext()
+        {
+            if (_context == null)
+            {
+                _context = new PraktikaDBEntities();
+            }
+            return _context;
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
