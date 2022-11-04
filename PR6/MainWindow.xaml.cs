@@ -34,12 +34,16 @@ namespace PR6
         {
             if (ProductTable.SelectedItem != null)
             {
-                DeleteWindow a = new DeleteWindow(ProductTable.SelectedItem);
+                string tableName = "product";
+                DeleteWindow a = new DeleteWindow(ProductTable.SelectedItem, tableName);
                 a.Show();
+                this.Hide();
             }
-            else
-            {
-                MessageBox.Show("Выберите строку");
+            if (FactoryTable.SelectedItem != null) {
+                string tableName = "factory";
+                DeleteWindow a = new DeleteWindow(FactoryTable.SelectedItem, tableName);
+                a.Show();
+                this.Hide();
             }
         }
 
@@ -47,6 +51,7 @@ namespace PR6
         {
             AddWindow page = new AddWindow();
             page.Show();
+            this.Hide();
         }
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
@@ -55,6 +60,7 @@ namespace PR6
             {
                 UpdateWindow a = new UpdateWindow(ProductTable.SelectedItem);
                 a.Show();
+                this.Close();
             }
             else
             {

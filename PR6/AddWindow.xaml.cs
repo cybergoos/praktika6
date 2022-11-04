@@ -46,7 +46,12 @@ namespace PR6
             else {
                 MessageBox.Show("Ошибка ввода");
             }
+
             this.Close();
+
+            MainWindow page = new MainWindow();
+            page.Show();
+
         }
     }
 }

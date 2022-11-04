@@ -20,17 +20,37 @@ namespace PR6
     public partial class DeleteWindow : Window
     {
         private Product _product;
+        private Factory _factory;
 
-        public DeleteWindow(object selectedItem)
+        string tableName;
+
+        public DeleteWindow(object selectedItem, string table)
         {
             InitializeComponent();
-            _product = selectedItem as Product;
-            FillTextBoxes();
+
+            if (table == "product")
+            {
+                _product = selectedItem as Product;
+                FillTextBoxes1();
+                tableName = table;
+            }
+
+            if (table == "factory")
+            {
+                _factory = selectedItem as Factory;
+                FillTextBoxes2();
+                tableName = table;
+            }
         }
 
-        private void FillTextBoxes()
+        private void FillTextBoxes1()
         {
             PId.Text = _product.product_id.ToString();
+        }
+
+        private void FillTextBoxes2()
+        {
+            PId.Text = _factory.factory_id.ToString();
         }
 
         private void PAddBtn_Click(object sender, RoutedEventArgs e)
@@ -40,15 +60,32 @@ namespace PR6
 
             if (isNum1)
             {
-                using (PraktikaDBEntities db = new PraktikaDBEntities())
+                if (tableName == "product")
                 {
-                    Product r = new Product();
-                    r = db.Products.Find(int.Parse(PId.Text));
-                    if (r != null)
+                    using (PraktikaDBEntities db = new PraktikaDBEntities())
                     {
-                        db.Products.Remove(r);
+                        Product r = new Product();
+                        r = db.Products.Find(int.Parse(PId.Text));
+                        if (r != null)
+                        {
+                            db.Products.Remove(r);
 
-                        db.SaveChanges();
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                if (tableName == "factory")
+                {
+                    using (PraktikaDBEntities db = new PraktikaDBEntities())
+                    {
+                        Factory r = new Factory();
+                        r = db.Factories.Find(int.Parse(PId.Text));
+                        if (r != null)
+                        {
+                            db.Factories.Remove(r);
+
+                            db.SaveChanges();
+                        }
                     }
                 }
             }
@@ -56,7 +93,11 @@ namespace PR6
             {
                 MessageBox.Show("Ошибка ввода");
             }
+
             this.Close();
+
+            MainWindow page = new MainWindow();
+            page.Show();
         }
     }
 }
